@@ -37,7 +37,6 @@ export const pay = (payload) => {
         currency = idr;
         break;
     }
-    console.log(currency.length);
 
     if (change < 0) {
       dispatch(setResult("Error"));
@@ -50,6 +49,10 @@ export const pay = (payload) => {
         if (value <= change) {
           result[value] = Math.floor(change / value);
           change -= value * result[value];
+        } else {
+          if (i == currency.length - 1) {
+            result["remainder"] = change;
+          }
         }
       }
       dispatch(setResult(result));

@@ -1,20 +1,23 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { pay } from "../store/actions/banknoteAction";
+import { setCurrency } from "../store/actions/banknoteAction";
 
 export default function Home() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const currency = useSelector(
+    (state) => state.banknoteReducer.current_currency
+  );
   const { register, handleSubmit } = useForm({
     mode: "onBlur",
-    defaultValues: "idr",
+    defaultValues: { currency },
   });
 
   const onSubmit = (data) => {
-    dispatch(pay(data));
-    history.push("/result");
+    dispatch(setCurrency(data.currency));
+    history.push("/pay");
   };
   return (
     <div className="container">
@@ -32,25 +35,7 @@ export default function Home() {
           <option value="won">South Korea (Won)</option>
           <option value="ruble">Russia (Rubble)</option>
         </select>
-        <label htmlFor="price" className="form-label">
-          Price
-        </label>
-        <input
-          name="price"
-          type="number"
-          className="form-control"
-          ref={register}
-        />
-        <label htmlFor="payment" className="form-label">
-          Payment
-        </label>
-        <input
-          name="payment"
-          type="number"
-          className="form-control"
-          ref={register}
-        />
-        <button className="btn btn-secondary">Submit</button>
+        <button className="btn btn-secondary">Next</button>
       </form>
     </div>
   );
