@@ -39,7 +39,7 @@ export const pay = (payload) => {
     }
 
     if (change < 0) {
-      dispatch(setResult("Error"));
+      dispatch(setResult("Sorry, Your payment is not enough"));
     } else if (change === 0) {
       dispatch(setResult("Thank You"));
     } else {
@@ -51,7 +51,7 @@ export const pay = (payload) => {
           change -= value * result[value];
         } else {
           if (i == currency.length - 1) {
-            result["remainder"] = change;
+            result[change] = "remainder";
           }
         }
       }
